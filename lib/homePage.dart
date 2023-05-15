@@ -1,7 +1,10 @@
 import 'package:democlass/constant.dart';
 import 'package:democlass/viewItemDetails.dart';
+import 'package:democlass/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +18,16 @@ class _HomePageState extends State<HomePage> {
   bool saladSelected = true;
   bool shakeSelected = true;
   var rateofPizza = '500';
+  bool isSelected = false;
+  var name = '';
+  var photo = '';
+  var email = '';
+  @override
+  void initState() {
+    super.initState();
+    getDatas();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,16 +47,24 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: [
               CircleAvatar(
+                backgroundImage: NetworkImage(photo == ''
+                    ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiwVJV38db9e6c6qLcHw53zMFT9j81nnv13Go8rzlOSA&s'
+                    : photo),
                 backgroundColor: Colors.amber[200],
-                child: const Icon(Icons.person),
+                /*  child: photo == ''
+                    ? const Icon(Icons.person)
+                    : Image(
+                        image: NetworkImage(photo),
+                      ), */
               ),
               const VerticalDivider(),
               Text(
-                'How Hungry Are You Today ?',
+                name == '' ? 'no name' : 'Hey $name How Hungry Are You Today ?',
                 style: textStyle1,
               ),
             ],
           ),
+          // Text(email),
           space,
           space,
           Row(
@@ -66,7 +87,53 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          CarouselSlider(
+            items: const [
+              Image(
+                image: AssetImage('assets/pizza.png'),
+              ),
+              Image(
+                image: AssetImage('assets/shake.png'),
+              ),
+              Image(
+                image: AssetImage('assets/salad.png'),
+              ),
+
+              /* ItemsCard(
+                  itemName: 'PIZZA',
+                  asset: 'assets/pizza.png',
+                  onTap: () {
+                    setState(() {
+                      pizzaSelected = true;
+                      saladSelected = false;
+                      shakeSelected = false;
+                    });
+                  }), */
+            ],
+            options: CarouselOptions(
+                scrollDirection: Axis.horizontal,
+                enableInfiniteScroll: false,
+                height: 200,
+                autoPlay: true),
+          ),
           space,
+          /*   Radio(
+              value: 'value',
+              groupValue: 'groupValue',
+              onChanged: (c) {
+                
+              },
+              toggleable: true), */
+          /*   Checkbox(
+              fillColor: MaterialStateProperty.all(Colors.red),
+              // fillColor: MaterialStateProperty.resolveWith<Color>,
+              checkColor: Colors.red,
+              value: isSelected,
+              onChanged: (variable) {
+                setState(() {
+                  isSelected = !isSelected;
+                });
+              }), */
           Text(
             'Choose Catogory',
             style: textStyle1,
@@ -292,45 +359,13 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
 
-class ItemsCard extends StatelessWidget {
-  ItemsCard(
-      {super.key,
-      required this.itemName,
-      required this.asset,
-      required this.onTap});
-  String itemName;
-  String asset;
-  void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: SizedBox(
-            height: double.maxFinite,
-            width: 150,
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage(asset),
-                ),
-                /*  Divider(
-                  height: 5,
-                ), */
-                Text(
-                  itemName,
-                  style: itemStyle,
-                )
-              ],
-            )),
-      ),
-    );
+  getDatas() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      name = preferences.getString('name').toString();
+      email = preferences.getString('mail').toString();
+      photo = preferences.getString('photo').toString();
+    });
   }
 }

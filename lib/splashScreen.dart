@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var status = sharedPreferences.getBool('login');
     if (status == true) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (cjd) => const GetStartedPage()),
+          MaterialPageRoute(builder: (cjd) => GetStartedPage()),
           (route) => false);
 
       /* Navigator.of(context).push(
