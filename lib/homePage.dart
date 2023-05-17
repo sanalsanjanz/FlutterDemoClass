@@ -41,112 +41,77 @@ class _HomePageState extends State<HomePage> {
             SystemUiOverlayStyle(statusBarColor: Colors.blueGrey[100]),
         toolbarHeight: 0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(photo == ''
-                    ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiwVJV38db9e6c6qLcHw53zMFT9j81nnv13Go8rzlOSA&s'
-                    : photo),
-                backgroundColor: Colors.amber[200],
-                /*  child: photo == ''
-                    ? const Icon(Icons.person)
-                    : Image(
-                        image: NetworkImage(photo),
-                      ), */
-              ),
-              const VerticalDivider(),
-              Text(
-                name == '' ? 'no name' : 'Hey $name How Hungry Are You Today ?',
-                style: textStyle1,
-              ),
-            ],
-          ),
-          // Text(email),
-          space,
-          space,
-          Row(
-            children: [
-              const Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: InputBorder.none,
-                      hintText: 'What would ypu like to eat ?'),
-                ),
-              ),
-              IconButton(
-                tooltip: 'Search',
-                onPressed: () {
-                  print('search');
-                },
-                icon: const Icon(Icons.search),
-              ),
-            ],
-          ),
-          CarouselSlider(
-            items: const [
-              Image(
-                image: AssetImage('assets/pizza.png'),
-              ),
-              Image(
-                image: AssetImage('assets/shake.png'),
-              ),
-              Image(
-                image: AssetImage('assets/salad.png'),
-              ),
-
-              /* ItemsCard(
-                  itemName: 'PIZZA',
-                  asset: 'assets/pizza.png',
-                  onTap: () {
-                    setState(() {
-                      pizzaSelected = true;
-                      saladSelected = false;
-                      shakeSelected = false;
-                    });
-                  }), */
-            ],
-            options: CarouselOptions(
-                scrollDirection: Axis.horizontal,
-                enableInfiniteScroll: false,
-                height: 200,
-                autoPlay: true),
-          ),
-          space,
-          /*   Radio(
-              value: 'value',
-              groupValue: 'groupValue',
-              onChanged: (c) {
-                
-              },
-              toggleable: true), */
-          /*   Checkbox(
-              fillColor: MaterialStateProperty.all(Colors.red),
-              // fillColor: MaterialStateProperty.resolveWith<Color>,
-              checkColor: Colors.red,
-              value: isSelected,
-              onChanged: (variable) {
-                setState(() {
-                  isSelected = !isSelected;
-                });
-              }), */
-          Text(
-            'Choose Catogory',
-            style: textStyle1,
-          ),
-          space,
-          SizedBox(
-            height: 200,
-            child: ListView(
-              padding: const EdgeInsets.all(8),
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
+      body: SingleChildScrollView(
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
-                ItemsCard(
+                CircleAvatar(
+                  backgroundImage: NetworkImage(photo == ''
+                      ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiwVJV38db9e6c6qLcHw53zMFT9j81nnv13Go8rzlOSA&s'
+                      : photo),
+                  backgroundColor: Colors.amber[200],
+                  /*  child: photo == ''
+                      ? const Icon(Icons.person)
+                      : Image(
+                          image: NetworkImage(photo),
+                        ), */
+                ),
+                const VerticalDivider(),
+                FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    name == ''
+                        ? 'no name'
+                        : 'Hey $name How Hungry Are You Today dsfgsdfg?',
+                    /* style: textStyle1, */
+                  ),
+                ),
+              ],
+            ),
+            // Text(email),
+            space,
+            space,
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {
+                      /*  setState(() {
+                        print(value);
+                      }); */
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: InputBorder.none,
+                        hintText: 'What would you like to eat ?'),
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'Search',
+                  onPressed: () {
+                    print('search');
+                  },
+                  icon: const Icon(Icons.search),
+                ),
+              ],
+            ),
+            CarouselSlider(
+              items: const [
+                Image(
+                  image: AssetImage('assets/pizza.png'),
+                ),
+                Image(
+                  image: AssetImage('assets/shake.png'),
+                ),
+                Image(
+                  image: AssetImage('assets/salad.png'),
+                ),
+
+                /* ItemsCard(
                     itemName: 'PIZZA',
                     asset: 'assets/pizza.png',
                     onTap: () {
@@ -155,51 +120,110 @@ class _HomePageState extends State<HomePage> {
                         saladSelected = false;
                         shakeSelected = false;
                       });
-                    }),
-                ItemsCard(
-                    itemName: 'SALAD',
-                    asset: 'assets/salad.png',
-                    onTap: () {
-                      setState(() {
-                        pizzaSelected = false;
-                        saladSelected = true;
-                        shakeSelected = false;
-                      });
-                    }),
-                ItemsCard(
-                    itemName: 'SHAKES',
-                    asset: 'assets/shake.png',
-                    onTap: () {
-                      setState(() {
-                        pizzaSelected = false;
-                        saladSelected = false;
-                        shakeSelected = true;
-                      });
-                    })
+                    }), */
               ],
+              options: CarouselOptions(
+                  scrollDirection: Axis.horizontal,
+                  enableInfiniteScroll: false,
+                  height: 200,
+                  autoPlay: true),
             ),
-          ),
-          // space,
-          Container(
-            padding: const EdgeInsets.only(right: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            space,
+            /*   Radio(
+                value: 'value',
+                groupValue: 'groupValue',
+                onChanged: (c) {
+                  
+                },
+                toggleable: true), */
+            /*   Checkbox(
+                fillColor: MaterialStateProperty.all(Colors.red),
+                // fillColor: MaterialStateProperty.resolveWith<Color>,
+                checkColor: Colors.red,
+                value: isSelected,
+                onChanged: (variable) {
+                  setState(() {
+                    isSelected = !isSelected;
+                  });
+                }), */
+            /*    Text(
+              'Choose Catogory',
+              style: textStyle1,
+            ), */
+
+            const ExpansionTile(
+              title: Text('More Items'),
               children: [
-                TextButton(
-                    onPressed: () {
-                      setState(() {
-                        pizzaSelected = true;
-                        saladSelected = true;
-                        shakeSelected = true;
-                      });
-                    },
-                    child: const Text('View All'))
+                Text('Item 1'),
+                Text('Item 1'),
+                Text('Item 1'),
+                Text('Item 1'),
+                Text('Item 1'),
+                Text('Item 1'),
+                Text('Item 1'),
               ],
             ),
-          ),
-          // space,
-          Expanded(
-            child: Container(
+            space,
+            SizedBox(
+              height: 200,
+              child: ListView(
+                padding: const EdgeInsets.all(8),
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ItemsCard(
+                      itemName: 'PIZZA',
+                      asset: 'assets/pizza.png',
+                      onTap: () {
+                        setState(() {
+                          pizzaSelected = true;
+                          saladSelected = false;
+                          shakeSelected = false;
+                        });
+                      }),
+                  ItemsCard(
+                      itemName: 'SALAD',
+                      asset: 'assets/salad.png',
+                      onTap: () {
+                        setState(() {
+                          pizzaSelected = false;
+                          saladSelected = true;
+                          shakeSelected = false;
+                        });
+                      }),
+                  ItemsCard(
+                      itemName: 'SHAKES',
+                      asset: 'assets/shake.png',
+                      onTap: () {
+                        setState(() {
+                          pizzaSelected = false;
+                          saladSelected = false;
+                          shakeSelected = true;
+                        });
+                      })
+                ],
+              ),
+            ),
+            // space,
+            Container(
+              padding: const EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          pizzaSelected = true;
+                          saladSelected = true;
+                          shakeSelected = true;
+                        });
+                      },
+                      child: const Text('View All'))
+                ],
+              ),
+            ),
+            // space,
+            Container(
               color: Colors.black38,
               // height: 300,
               child: ListView(
@@ -353,9 +377,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
