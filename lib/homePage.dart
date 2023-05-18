@@ -1,4 +1,5 @@
 import 'package:democlass/constant.dart';
+import 'package:democlass/search.dart';
 import 'package:democlass/viewItemDetails.dart';
 import 'package:democlass/widgets/itemCard.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,11 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   tooltip: 'Search',
                   onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (cgf) => const Search()),
+                        (route) => false);
+
                     print('search');
                   },
                   icon: const Icon(Icons.search),
