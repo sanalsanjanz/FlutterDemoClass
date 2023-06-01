@@ -61,8 +61,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
             Text(
               'website or app that allows customers to view the menu and place an order, and an admin interface that enables the restaurant to receive and fulfil customer orders.',
-              style:
-                  GoogleFonts.dancingScript(fontSize: 16, color: Colors.black),
+              style: GoogleFonts.actor(fontSize: 16, color: Colors.black),
               textAlign: TextAlign.center,
             ),
             space,
@@ -83,7 +82,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.amber,
-                shape: const CircleBorder(),
+                shape: const StadiumBorder(),
               ),
               onPressed: () {
                 Navigator.pushAndRemoveUntil(

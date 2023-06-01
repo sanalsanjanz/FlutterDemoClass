@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -16,11 +17,13 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final TextEditingController numController = TextEditingController();
   int currentpageIndex = 0;
+  final DateTime _selectedDate = DateTime.now();
   TimeOfDay time = const TimeOfDay(hour: 8, minute: 45);
   var result = 'search for something';
   bool isNum = true;
   bool isTriv = false;
   bool isDate = false;
+  bool isYear = false;
   String date = '';
   String month = '';
   bool isLoading = false;
@@ -28,6 +31,12 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () async {
+                await Fluttertoast.showToast(
+                    msg: 'qrftghj', gravity: ToastGravity.CENTER);
+              },
+              icon: const Icon(Icons.add)),
           systemOverlayStyle:
               const SystemUiOverlayStyle(statusBarColor: Colors.purple),
           title: const Text('Num Check'),
@@ -67,6 +76,7 @@ class _SearchState extends State<Search> {
                     selected: isNum,
                     onSelected: (value) {
                       setState(() {
+                        isYear = false;
                         isNum = true;
                         isTriv = false;
                         isDate = false;
@@ -78,6 +88,7 @@ class _SearchState extends State<Search> {
                     selected: isTriv,
                     onSelected: (value) {
                       setState(() {
+                        isYear = false;
                         isNum = false;
                         isTriv = true;
                         isDate = false;
@@ -89,9 +100,22 @@ class _SearchState extends State<Search> {
                       selected: isDate,
                       onSelected: (value) {
                         setState(() {
+                          isYear = false;
+
                           isNum = false;
                           isTriv = false;
                           isDate = true;
+                        });
+                      }),
+                  ChoiceChip(
+                      label: const Text('Year'),
+                      selected: isYear,
+                      onSelected: (value) {
+                        setState(() {
+                          isYear = true;
+                          isNum = false;
+                          isTriv = false;
+                          isDate = false;
                         });
                       })
                 ],
@@ -198,6 +222,53 @@ class _SearchState extends State<Search> {
                   ),
                 ),
               ),
+              Visibility(
+                visible: isYear,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purple,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                    ),
+                    child: const Text('Choose Year'),
+                    onPressed: () async {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Select Year"),
+                            content: SizedBox(
+                              width: 300,
+                              height: 300,
+                              child: YearPicker(
+                                firstDate:
+                                    DateTime(DateTime.now().year - 100, 1),
+                                lastDate:
+                                    DateTime(DateTime.now().year + 100, 1),
+                                initialDate: DateTime.now(),
+                                selectedDate: _selectedDate,
+                                onChanged: (DateTime dateTime) async {
+                                  print(dateTime.year);
+                                  await getResponse(
+                                          type: 'year',
+                                          num: dateTime.year.toString())
+                                      .then((value) => Navigator.pop(context));
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
               /*   ElevatedButton(
                 onPressed: () async {
                  
@@ -209,7 +280,7 @@ class _SearchState extends State<Search> {
         ));
   }
 
-  getResponse(
+  Future getResponse(
       {required String num,
       required String type,
       String? month,
@@ -220,6 +291,7 @@ class _SearchState extends State<Search> {
     var url = isDate
         ? 'http://numbersapi.com/$month/$day/$type'
         : 'http://numbersapi.com/$num/$type';
+
     http.Response response = await http.get(
       Uri.parse(url),
     );
@@ -231,3 +303,4 @@ class _SearchState extends State<Search> {
     }
   }
 }
+/*   */

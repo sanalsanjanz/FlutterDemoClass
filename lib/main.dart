@@ -1,6 +1,8 @@
 import 'package:democlass/splashScreen.dart';
+import 'package:democlass/widgets/weatherProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,9 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        title: 'Flutter',
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen());
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (create) => WeatherProvider())
+      ],
+      child: const MaterialApp(
+          title: 'Flutter',
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen()),
+    );
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:democlass/search.dart';
+import 'package:democlass/weatherMap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xff254151),
       body: Center(
           child: SpinKitFoldingCube(
         color: Colors.white,
@@ -38,17 +38,11 @@ class _SplashScreenState extends State<SplashScreen> {
     var status = sharedPreferences.getBool('login');
     if (status == true) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (cjd) => const Search()),
+          MaterialPageRoute(builder: (cjd) => const WeatherMap()),
           (route) => false);
-
-      /* Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctc) => const PageTwo(),
-        ),
-      ); */
     } else {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (cjd) => const Search()),
+          MaterialPageRoute(builder: (cjd) => const WeatherMap()),
           (route) => false);
     }
   }
